@@ -1,0 +1,95 @@
+<!--
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+作成日時:2017/05/19
+作成者:喜多村卓
+作成ファイル名:index.html
+プログラム概要:ページを表示する。
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+-->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="./css/map.css" media="all">
+
+    <script src="./js/program-start.js">
+    </script>
+
+    <script src = "./js/map.js">
+    </script>
+
+    <script src = "./js/show-plan.js">
+    </script>
+
+    <script src = "./js/show-route.js">
+    </script>
+
+    <script src = "./js/distance-matrix-service.js">
+    </script>
+
+    <!-- URLの末尾のjs関数が最初に呼び出される -->
+    <script src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBtrsmgpXU5pOHt30ZhkE_MttedPGsbZzw&libraries=places&callback=programStart">
+    </script>
+
+</head>
+
+<body>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map-canvas"></div>
+
+    <form id="mode">
+
+        <label><input name="method" type="radio" value = "WALKING" checked="checked">徒歩</label>
+        <label><input name="method" type="radio" value = "DRIVING">自動車</label>
+
+        <!-- 自転車は日本では使えず、公共交通機関も日本の一部でしか使えない -->
+        <label><input name="method" type="radio" value = "BICYCLING">自転車</label>
+        <label><input name="method" type="radio" value = "TRANSIT">公共交通機関</label>
+
+    </form>
+
+    <br>
+
+    <form name="departure_time">
+        出発時刻：<input name="year" type="text" value="">年
+        <input name="month" type="text" value="">月
+        <input name="day" type="text" value="">日
+        <input name="hour" type="text" value="">時
+        <input name="minute" type="text" value="">分
+    </form>
+
+    <form name="arrival_time">
+        到着時間：<input name="year" type="text" value="">年
+        <input name="month" type="text" value="">月
+        <input name="day" type="text" value="">日
+        <input name="hour" type="text" value="">時
+        <input name="minute" type="text" value="">分
+    </form>
+
+    <br>
+
+
+    <!-- <button id="execute">調べる</button> -->
+
+    <div id="text1">
+    </div>
+
+    <div id="text2">
+    </div>
+    <!-- <div id="text3"></div>
+    <div id="text4"></div> -->
+
+    <br>
+    <div id="route-list">
+    </div>
+
+    <div id="plan">
+    </div>
+
+</body>
+
+</html>

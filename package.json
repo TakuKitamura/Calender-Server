@@ -1,0 +1,28 @@
+{
+  "name": "bamboober",
+  "version": "1.0.0",
+  "description": "1. index.htmlがあるディレクトリで $php -S localhost:3000 と実行。 2. ChromeなどのWebブラウザで、http://localhost:3000/ にアクセス。 3. 使用する交通手段を選択。 4. 目的地を左クリック。 5. 所要時間、経路などのデータが表示される。",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "@google/maps": "^0.4.3",
+    "chai": "^4.1.2",
+    "mocha-sinon": "^2.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/bamboober/bamboober.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/bamboober/bamboober#readme"
+}
