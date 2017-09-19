@@ -1,6 +1,6 @@
 1. README.mdがあるディレクトリで、$ npm install
 2. $ npm start
-3. http://localhost:3000/api/v1/?origin_lat=34.990493&origin_lng=135.9637064&destination_lat=34.999493&destination_lng=135.9737064&mode=transit&arrival_time=2017-10-02T04:20:00.000Z
+3. http://localhost:3000/api/v1/?origin_lat=34.990493&origin_lng=135.9637064&destination_lat=34.999493&destination_lng=135.9737064&mode=transit&arrival_time=2017/09/21,11:46
 
 というような、GETリクエストで、対象のJSONを取得できる
 
