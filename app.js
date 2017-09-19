@@ -141,11 +141,11 @@ server.on('request', function (req, res) {
       getDirectionsObj['destination'] = getDirectionsObj['destination_lat'] + ', ' + getDirectionsObj['destination_lng']
 
       if( 'arrival_time' in getDirectionsObj ) {
-      getDirectionsObj['arrival_time'] = new Date(getDirectionsObj['arrival_time'])
+        getDirectionsObj['arrival_time'] = new Date(getDirectionsObj['arrival_time'])
       }
 
-      else {
-      getDirectionsObj['departure_time'] = new Date(getDirectionsObj['departure_time'])
+      if( 'departure_time' in getDirectionsObj) {
+        getDirectionsObj['departure_time'] = new Date(getDirectionsObj['departure_time'])
       }
 
       if( getDirectionsObj['mode'] === 'transit' ) {
@@ -179,7 +179,7 @@ server.on('request', function (req, res) {
 
         function update(json) {
           res.writeHead(200, {
-            'content-Type': 'text/json charset=utf-8'
+            'content-Type': 'text/json; charset=utf-8'
           })
           res.write(JSON.stringify(json))
 
