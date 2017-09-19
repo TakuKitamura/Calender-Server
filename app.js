@@ -1,12 +1,12 @@
 // クライアントからのレスポンスを受け取り、適切なファイルに処理を依頼する
 // 必要なファイルを読み込み
-var http = require('http');
-var https = require('https');
-var url = require('url');
-var fs = require('fs');
-var server = http.createServer();
+var http = require('http')
+var https = require('https')
+var url = require('url')
+var fs = require('fs')
+var server = http.createServer()
 
-var urlParse = require('./node-lib/urlParse');
+var urlParse = require('./node-lib/urlParse')
 
 
 // http.createServerがrequestされたら、(イベントハンドラ)
@@ -20,12 +20,12 @@ server.on('request', function (req, res) {
 
         res.writeHead(200, {
           'content-Type': 'text/html'
-        });
+        })
 
-        res.write(data);
-        res.end();
+        res.write(data)
+        res.end()
 
-      });
+      })
 
     },
 
@@ -34,12 +34,12 @@ server.on('request', function (req, res) {
 
         res.writeHead(200, {
           'content-Type': 'text/css'
-        });
+        })
 
-        res.write(data);
-        res.end();
+        res.write(data)
+        res.end()
 
-      });
+      })
 
     },
 
@@ -48,12 +48,12 @@ server.on('request', function (req, res) {
 
         res.writeHead(200, {
           'content-Type': 'text/plain'
-        });
+        })
 
-        res.write(data);
-        res.end();
+        res.write(data)
+        res.end()
 
-      });
+      })
 
     },
 
@@ -62,12 +62,12 @@ server.on('request', function (req, res) {
 
         res.writeHead(200, {
           'content-Type': 'text/plain'
-        });
+        })
 
-        res.write(data);
-        res.end();
+        res.write(data)
+        res.end()
 
-      });
+      })
 
     },
 
@@ -76,12 +76,12 @@ server.on('request', function (req, res) {
 
         res.writeHead(200, {
           'content-Type': 'text/plain'
-        });
+        })
 
-        res.write(data);
-        res.end();
+        res.write(data)
+        res.end()
 
-      });
+      })
 
     },
 
@@ -90,12 +90,12 @@ server.on('request', function (req, res) {
 
         res.writeHead(200, {
           'content-Type': 'text/plain'
-        });
+        })
 
-        res.write(data);
-        res.end();
+        res.write(data)
+        res.end()
 
-      });
+      })
 
     },
 
@@ -104,12 +104,12 @@ server.on('request', function (req, res) {
 
         res.writeHead(200, {
           'content-Type': 'text/plain'
-        });
+        })
 
-        res.write(data);
-        res.end();
+        res.write(data)
+        res.end()
 
-      });
+      })
 
     },
 
@@ -118,12 +118,12 @@ server.on('request', function (req, res) {
 
         res.writeHead(200, {
           'content-Type': 'text/plain'
-        });
+        })
 
-        res.write(data);
-        res.end();
+        res.write(data)
+        res.end()
 
-      });
+      })
 
     },
 
@@ -133,192 +133,147 @@ server.on('request', function (req, res) {
 
       const googleMapsClient = require('./node_modules/@google/maps').createClient({
         key: 'AIzaSyBtrsmgpXU5pOHt30ZhkE_MttedPGsbZzw'
-      });
+      })
 
       getDirectionsObj['language'] = 'ja'
       getDirectionsObj['region'] = 'JP'
+      getDirectionsObj['origin'] = getDirectionsObj['origin_lat'] + ', ' + getDirectionsObj['origin_lng']
+      getDirectionsObj['destination'] = getDirectionsObj['destination_lat'] + ', ' + getDirectionsObj['destination_lng']
 
-      const getOriginLat = parseFloat(getDirectionsObj['origin_lat'])
-      const getOriginLng = parseFloat(getDirectionsObj['origin_lng'])
+      if( 'arrival_time' in getDirectionsObj ) {
+      getDirectionsObj['arrival_time'] = new Date(getDirectionsObj['arrival_time'])
+      }
 
-      const getDestinationLat = parseFloat(getDirectionsObj['destination_lat'])
-      const getDestinationLng = parseFloat(getDirectionsObj['destination_lng'])
+      else {
+      getDirectionsObj['departure_time'] = new Date(getDirectionsObj['departure_time'])
+      }
 
+      if( getDirectionsObj['mode'] === 'transit' ) {
+        getDirectionsObj['transit_mode'] = 'bus'
+      }
+
+      // delete getDirectionsObj['mode']
+      // delete getDirectionsObj['arrival_time']
       delete getDirectionsObj['origin_lat']
       delete getDirectionsObj['origin_lng']
       delete getDirectionsObj['destination_lat']
       delete getDirectionsObj['destination_lng']
 
-      function add_obj(key,value) {
-        getDirectionsObj[key] = value
-      }
+      console.log(getDirectionsObj)
+      // console.log(googleMapsClient.directions)
 
-      function getOriginPlace(callback) {
-        googleMapsClient.reverseGeocode({
-          latlng : [getOriginLat, getOriginLng],
-        },function(err,response) {
-          if(!err) {
-
-            const origin = response.json.results[0].formatted_address
-            add_obj('origin',origin)
-
-            callback(directions,origin)
-          }
-        })
-      }
-
-      function getDestinationPlace(callback,origin) {
-
-        googleMapsClient.reverseGeocode({
-          latlng : [getDestinationLat, getDestinationLng],
-        },function(err,response) {
-
-          if(!err) {
-            // 出発時刻か、到着時刻どちらかのみ
-
-            if( 'arrival_time' in getDirectionsObj ) {
-              var arrivalTime = new Date(getDirectionsObj['arrival_time'])
-              add_obj('arrival_time',arrivalTime)
-            }
-
-            if( 'departure_time' in getDirectionsObj ) {
-              var departureTime = new Date(getDirectionsObj['departure_time'])
-              add_obj('departure_time',departureTime)
-            }
-
-
-            const destination = response.json.results[0].formatted_address
-            add_obj('destination',destination)
-
-            if( getDirectionsObj['mode'] === 'transit' ) {
-              add_obj('transit_mode','bus')
-            }
-
-            callback(writeJson,getDirectionsObj)
-
-          }
-        })
-      }
-
-      function directions(callback,getDirectionsObj) {
-        console.log(getDirectionsObj)
-        console.log(googleMapsClient.directions)
-
-        googleMapsClient.di
-
-        googleMapsClient.directions( getDirectionsObj,
-          function(err,response) {
-            console.log('HELLO')
-            console.log(response)
-            if(!err) {
-
-              callback(response)
-            }
-          })
-        }
-
-        function writeJson(response) {
+      googleMapsClient.directions( getDirectionsObj,
+        function(err,response) {
+          // console.log('HELLO')
+          console.log(err)
           console.log(response)
-
-          function update(json) {
-            res.writeHead(200, {
-              'content-Type': 'text/json; charset=utf-8'
-            });
-            res.write(JSON.stringify(json))
-
-            res.end()
+          if(!err) {
+            console.log(response)
+            writeJson(response)
           }
+        }
+      )
 
-          var url = response.requestUrl;
-          https.get(url, function(res){
-          	var body = '';
-          	res.setEncoding('utf8');
+      function writeJson(response) {
+        console.log(response)
 
-          	res.on('data', function(chunk){
-          		body += chunk;
-          	});
+        function update(json) {
+          res.writeHead(200, {
+            'content-Type': 'text/json charset=utf-8'
+          })
+          res.write(JSON.stringify(json))
 
-          	res.on('end', function(res){
-          		ret = JSON.parse(body);
-              console.log(ret)
-              update(ret)
-          	});
-          }).on('error', function(e){
-          	console.log(e.message); //エラー時
-          });
-
-
+          res.end()
         }
 
-        getOriginPlace(getDestinationPlace);
+        var url = response.requestUrl
+        https.get(url, function(res){
+          var body = ''
+          res.setEncoding('utf8')
 
-      },
+          res.on('data', function(chunk){
+            body += chunk
+          })
+
+          res.on('end', function(res){
+            ret = JSON.parse(body)
+            // console.log(ret)
+            update(ret)
+          })
+        }).on('error', function(e){
+          console.log(e.message) //エラー時
+        })
 
 
-    };
-    // urlのpathをuriに代入
-    var uri = url.parse(req.url).pathname;
-    // console.log(uri)
-
-
-    // URIで行う処理を分岐させる
-    if (uri === "/") {
-      Response["renderHTML"]();
-      return;
-    }
-
-    if (uri === "/css/map.css") {
-      Response["renderCSS"]();
-      return;
-    }
-
-    if (uri === "/js/program-start.js") {
-      Response["programStart"]();
-      return;
-    };
-
-    if (uri === "/js/map.js") {
-      Response["map"]();
-      return;
-    };
-
-    if (uri === "/js/show-plan.js") {
-      Response["showPlan"]();
-      return;
-    };
-
-    if (uri === "/js/show-route.js") {
-      Response["showRoute"]();
-      return;
-    };
-
-    if (uri === "/js/distance-matrix-service.js") {
-      Response["directionsService"]();
-      return;
-    };
-
-    if (uri === "https://maps.googleapis.com/maps/api/js?key=AIzaSyBtrsmgpXU5pOHt30ZhkE_MttedPGsbZzw&libraries=places&callback=programStart") {
-      Response["googleApis"]();
-      return;
-    };
-
-    // APIアクセスのURLチェック にテストケース
-    if (/^\/api\/v1\//.test(req.url)) {
-
-      const getDirectionsObj = urlParse.parseGetRequest(req.url)
-
-      if( getDirectionsObj !== 'BADPARAMS' ) {
-        Response["apiServer"](getDirectionsObj);
-        return;
-      }
-
-      else {
-        return
       }
 
     }
 
-  });
 
-  server.listen(3000)
-  console.log('Server running at http://localhost:3000/');
+  }
+  // urlのpathをuriに代入
+  var uri = url.parse(req.url).pathname
+  // console.log(uri)
+
+
+  // URIで行う処理を分岐させる
+  if (uri === "/") {
+    Response["renderHTML"]()
+    return
+  }
+
+  if (uri === "/css/map.css") {
+    Response["renderCSS"]()
+    return
+  }
+
+  if (uri === "/js/program-start.js") {
+    Response["programStart"]()
+    return
+  }
+
+  if (uri === "/js/map.js") {
+    Response["map"]()
+    return
+  }
+
+  if (uri === "/js/show-plan.js") {
+    Response["showPlan"]()
+    return
+  }
+
+  if (uri === "/js/show-route.js") {
+    Response["showRoute"]()
+    return
+  }
+
+  if (uri === "/js/distance-matrix-service.js") {
+    Response["directionsService"]()
+    return
+  }
+
+  if (uri === "https://maps.googleapis.com/maps/api/js?key=AIzaSyBtrsmgpXU5pOHt30ZhkE_MttedPGsbZzw&libraries=places&callback=programStart") {
+    Response["googleApis"]()
+    return
+  }
+
+  // APIアクセスのURLチェック にテストケース
+  if (/^\/api\/v1\//.test(req.url)) {
+
+    const getDirectionsObj = urlParse.parseGetRequest(req.url)
+
+    if( getDirectionsObj !== 'BADPARAMS' ) {
+      Response["apiServer"](getDirectionsObj)
+      return
+    }
+
+    else {
+      return
+    }
+
+  }
+
+})
+
+server.listen(3000)
+console.log('Server running at http://localhost:3000/')
