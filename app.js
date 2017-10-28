@@ -8,8 +8,6 @@ var server = http.createServer()
 
 var urlParse = require('./node-lib/urlParse')
 
-var apiKey = 'AIzaSyDndUePQ1TWVfNQevNk6GEENmRtmpJUiHM'
-
 
 // http.createServerがrequestされたら、(イベントハンドラ)
 server.on('request', function (req, res) {
@@ -116,7 +114,7 @@ server.on('request', function (req, res) {
     },
 
     "googleApis": function () {
-      var contens = fs.readFile('https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&libraries=places&callback=programStart', 'utf-8', function (err, data) {
+      var contens = fs.readFile('https://maps.googleapis.com/maps/api/js?key=AIzaSyBtrsmgpXU5pOHt30ZhkE_MttedPGsbZzw&libraries=places&callback=programStart', 'utf-8', function (err, data) {
 
         res.writeHead(200, {
           'content-Type': 'text/plain'
@@ -134,7 +132,7 @@ server.on('request', function (req, res) {
       console.log(uri + 'だよ')
 
       const googleMapsClient = require('./node_modules/@google/maps').createClient({
-        key: apiKey
+        key: 'AIzaSyBtrsmgpXU5pOHt30ZhkE_MttedPGsbZzw'
       })
 
       getDirectionsObj['language'] = 'ja'
@@ -254,7 +252,7 @@ server.on('request', function (req, res) {
     return
   }
 
-  if (uri === 'https://maps.googleapis.com/maps/api/js?key=' + apiKey + '&libraries=places&callback=programStart') {
+  if (uri === "https://maps.googleapis.com/maps/api/js?key=AIzaSyBtrsmgpXU5pOHt30ZhkE_MttedPGsbZzw&libraries=places&callback=programStart") {
     Response["googleApis"]()
     return
   }
