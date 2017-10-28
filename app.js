@@ -143,11 +143,11 @@ server.on('request', function (req, res) {
       getDirectionsObj['destination'] = getDirectionsObj['destination_lat'] + ', ' + getDirectionsObj['destination_lng']
 
       if( 'arrival_time' in getDirectionsObj ) {
-        getDirectionsObj['arrival_time'] = new Date(getDirectionsObj['arrival_time'])
+        getDirectionsObj['arrival_time'] = new Date(getDirectionsObj['arrival_time'] + ' UTC')
       }
 
       if( 'departure_time' in getDirectionsObj) {
-        getDirectionsObj['departure_time'] = new Date(getDirectionsObj['departure_time'])
+        getDirectionsObj['departure_time'] = new Date(getDirectionsObj['departure_time'] + ' UTC')
       }
 
       if( getDirectionsObj['mode'] === 'transit' ) {
