@@ -151,7 +151,7 @@ server.on('request', function (req, res) {
       }
 
       if( getDirectionsObj['mode'] === 'transit' ) {
-        getDirectionsObj['transit_mode'] = 'bus'
+        getDirectionsObj['transit_mode'] = 'bus|subway|train|tram'
       }
 
       // delete getDirectionsObj['mode']
@@ -279,5 +279,5 @@ server.on('request', function (req, res) {
 
 })
 
-server.listen(9269)
-console.log('Server running at http://localhost:9269/')
+server.listen(1072)
+console.log('Server running at http://localhost:1072/')
