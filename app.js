@@ -151,7 +151,7 @@ server.on('request', function (req, res) {
       }
 
       if( getDirectionsObj['mode'] === 'transit' ) {
-        getDirectionsObj['transit_mode'] = 'bus|subway|train|tram'
+        getDirectionsObj['transit_mode'] = 'bus'
       }
 
       // delete getDirectionsObj['mode']
