@@ -213,6 +213,7 @@ server.on('request', function (req, res) {
 
 
   }
+  /*
   // urlのpathをuriに代入
   var uri = url.parse(req.url).pathname
   // console.log(uri)
@@ -258,6 +259,7 @@ server.on('request', function (req, res) {
     Response["googleApis"]()
     return
   }
+  */
 
   // APIアクセスのURLチェック にテストケース
   if (/^\/api\/v1\//.test(req.url)) {
