@@ -213,12 +213,12 @@ server.on('request', function (req, res) {
 
 
   }
-  /*
+
   // urlのpathをuriに代入
   var uri = url.parse(req.url).pathname
   // console.log(uri)
 
-
+  /*
   // URIで行う処理を分岐させる
   if (uri === "/") {
     Response["renderHTML"]()
